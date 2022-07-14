@@ -6,19 +6,19 @@
            required>
     </textarea>
     <TagsList :items="tags"
-              isPreview
     @onItemClick="handleClick"/>
     <button type="submit" class="btn btnPrimary">Add new note</button>
   </form>
   </div>
 </template>
 <script>
+import tags from "@/seeders/tags";
 import TagsList from "@/components/UI/TagsList";
 export default {
   data(){
     return{
       value: '',
-      tags: ['home', 'work', 'travel']
+      tags: tags
     }
   },
 components:{
@@ -30,7 +30,7 @@ components:{
       this.value = ""
     },
     handleClick(item){
-      console.log(item)
+      item.isActive = true
     }
   }
 }

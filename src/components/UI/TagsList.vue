@@ -2,10 +2,13 @@
   <div class="tags-list">
     <div class="tag-item"
          v-for="item in items"
-         :key="item"
-         :class="{isPreview: isPreview}"
+         :key="item.id"
+         :class="{
+           isPreview: isPreview,
+           isActive: item.isActive
+         }"
          @click="onItemClick(item)">
-        <span>{{item}}</span>
+        <span>{{item.title}}</span>
     </div>
   </div>
 </template>
@@ -28,7 +31,7 @@ export default{
   methods:{
     onItemClick(item){
       this.$emit('onItemClick', item)
-    }
+    },
   }
 }
 </script>
@@ -45,17 +48,17 @@ export default{
   border-radius: 22px;
   user-select: none;
   cursor:pointer;
+  &::before{
+    content: '#';
+  }
   &.isActive{
     background-color: #444ce0;
-    color: #ffffff;
+      color: #ffffff;
   }
   &.isPreview{
     padding: 0;
     color: #444ce0;
     cursor: default;
-    &::before{
-      content: '#';
-    }
   }
   &:last-child{
     margin-right: 0;

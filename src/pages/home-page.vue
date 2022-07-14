@@ -1,12 +1,11 @@
 <template>
   <div class="md-body">
     <Form @onSubmit="handleSubmit"/>
-    <List :items="notes"
-    @onRemove="handleRemove"/>
-    <TagsList/>
+    <List :items="notes"  @onRemove="handleRemove"/>
   </div>
 </template>
 <script>
+import tags from "@/seeders/tags";
 import Form from '@/components/notes/TheForm'
 import List from '@/components/notes/TheList'
 import notes from "@/seeders/notes";
@@ -19,7 +18,8 @@ export default {
 
   data() {
     return {
-      notes: notes
+      notes: notes,
+      tags: tags
     }
   },
   mounted() {
@@ -27,9 +27,13 @@ export default {
   },
   methods:{
     handleSubmit(title){
+      const activeTags = this.tags.filter(element => element.isActive === true)
+      activeTags.forEach(element=>{
+        element.isActive = false
+      })
       const note = {
-        title,
-        tags: []
+        title: title,
+        tags: activeTags
       }
       this.notes.push(note)
     },
