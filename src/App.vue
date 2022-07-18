@@ -3,8 +3,8 @@
     <TheHeader/>
     <div class="wrapper-content">
         <div class="container">
-        </div>
         <router-view/>
+        </div>
       </div>
     <TheFooter/>
   </div>

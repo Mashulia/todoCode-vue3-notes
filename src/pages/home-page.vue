@@ -1,58 +1,42 @@
 <template>
-  <div class="md-body">
-    <Form @onSubmit="handleSubmit"/>
-    <List :items="notes"  @onRemove="handleRemove"/>
+<!--  <ul>-->
+<!--    <li v-for="user in users" :key="user.id">-->
+<!--      <p>{{user.id}}</p>-->
+<!--      <p>{{user.name}}</p>-->
+<!--      <p>{{user.admin ? 'Это админ' : 'Обычный пользователь'}}</p>-->
+<!--    </li>-->
+<!--  </ul>-->
+<!--  <br>-->
+<!--    <p>{{usersLength}}</p>-->
+  <br>
+  <br>
+  <div v-if="isUserLogged"> User is Logged :{{user}}
+  </div>
+  <div v-else>
+  <button class="btn btnPrimary" @click="handleLoginClick">Login</button>
   </div>
 </template>
 <script>
-import tags from "@/seeders/tags";
-import Form from '@/components/notes/TheForm'
-import List from '@/components/notes/TheList'
-import notes from "@/seeders/notes";
-
 export default {
-  components: {
-    Form,
-    List
-  },
-
-  data() {
-    return {
-      notes: notes,
-      tags: tags
+  data(){
+    return{
+      userId: 3
     }
   },
-  mounted() {
-    this.getNotes()
-  },
   methods:{
-    handleSubmit(title){
-      const activeTags = this.tags.filter(element => element.isActive === true)
-      activeTags.forEach(element=>{
-        element.isActive = false
-      })
-      const note = {
-        title: title,
-        tags: activeTags
-      }
-      this.notes.push(note)
-    },
-    handleRemove(index){
-      this.notes.splice(index, 1)
-    },
-    getNotes(){
-      const localNotes = localStorage.getItem('notes');
-      if (localNotes){
-        this.notes = JSON.parse(localNotes)
-      }
-    },
+    handleLoginClick(){
+      this.$store.dispatch('setUser')
+    }
   },
-  watch:{
-    notes:{
-      handler(updatedList){
-        localStorage.setItem('notes', JSON.stringify(updatedList))
-      },
-      deep: true
+  computed:{
+    isUserLogged(){
+      return this.$store.getters.isUserLogged
+    },
+    user(){
+      return this.$store.getters.getUser
+    },
+    usersLength(){
+      return this.$store.getters.getUsersLength
     }
   }
 }
